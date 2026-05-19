@@ -1,0 +1,12 @@
+langgraph
+langchain-groq
+langchain-core
+yfinance
+newsapi-python
+pycoingecko
+fredapi
+streamlit
+python-dotenv
+pandas
+numpy
+requests
