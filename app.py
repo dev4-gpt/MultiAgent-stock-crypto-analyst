@@ -6,17 +6,6 @@ from graph import tradebuddy_graph
 
 st.set_page_config(page_title="MarketMind", page_icon="🧠", layout="wide")
 
-st.markdown("""
-<style>
-.bullish { color: #00e676; font-weight: bold; }
-.bearish { color: #ff5252; font-weight: bold; }
-.neutral { color: #ffeb3b; font-weight: bold; }
-.buy-box { color: #00e676; font-size: 2.2rem; font-weight: bold; }
-.sell-box { color: #ff5252; font-size: 2.2rem; font-weight: bold; }
-.hold-box { color: #ffeb3b; font-size: 2.2rem; font-weight: bold; }
-</style>
-""", unsafe_allow_html=True)
-
 st.title("🧠 MarketMind")
 st.caption("Parallel Multi-Agent Stock & Crypto Analyst | LangGraph + Groq Llama-3.3-70B")
 st.divider()
@@ -35,6 +24,8 @@ with col2:
 
 SIGNAL_EMOJI = {"BULLISH": "🟢", "BEARISH": "🔴", "NEUTRAL": "🟡"}
 VERDICT_EMOJI = {"BUY": "🟢", "SELL": "🔴", "HOLD": "🟡"}
+COLOR_MAP = {"BULLISH": "green", "BEARISH": "red", "NEUTRAL": "orange",
+             "BUY": "green", "SELL": "red", "HOLD": "orange"}
 AGENT_LABELS = {
     "price": "📈 Price & Technicals",
     "sentiment": "📰 News Sentiment",
@@ -74,6 +65,7 @@ if run_btn and ticker.strip():
             raw_verdict = output.get("final_verdict", "HOLD")
             if not raw_verdict: raw_verdict = "HOLD"
             verdict = str(raw_verdict).strip().upper()
+            color = COLOR_MAP.get(verdict, "orange")
 
             confidence = output.get("final_confidence", 0.5)
             reasoning = output.get("final_reasoning", "")
@@ -82,11 +74,7 @@ if run_btn and ticker.strip():
             v1, v2, v3 = st.columns([1, 1, 2])
             with v1:
                 st.markdown("### Verdict")
-                css = verdict.lower() + "-box"
-                st.markdown(
-                    f'<p class="{css}">{VERDICT_EMOJI.get(verdict, "🟡")} {verdict}</p>',
-                    unsafe_allow_html=True,
-                )
+                st.markdown(f"### :{color}[{VERDICT_EMOJI.get(verdict, '🟡')} {verdict}]")
             with v2:
                 st.markdown("### Confidence")
                 st.markdown(f"### {confidence:.0%}")
@@ -112,15 +100,11 @@ if run_btn and ticker.strip():
                 with cols[i]:
                     raw_sig = s.get("signal", "NEUTRAL")
                     clean_sig = str(raw_sig).strip().upper()
-                    sig_css = clean_sig.lower()
+                    sig_color = COLOR_MAP.get(clean_sig, "orange")
                     emoji = SIGNAL_EMOJI.get(clean_sig, "🟡")
 
                     st.markdown(f"**{AGENT_LABELS[key]}**")
-                    st.markdown(
-                        f'<span class="{sig_css}">'
-                        f'{emoji} {clean_sig}</span>',
-                        unsafe_allow_html=True,
-                    )
+                    st.markdown(f":{sig_color}[**{emoji} {clean_sig}**]")
                     conf = float(s.get('confidence', 0.0))
                     st.caption(f"Confidence: {conf:.0%}")
                     st.text(confidence_bar(conf))
