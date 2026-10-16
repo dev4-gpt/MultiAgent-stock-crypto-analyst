@@ -1,5 +1,7 @@
 # 🧠 MarketMind: Parallel Multi-Agent Financial Analyst
 
+> **Direction:** MarketMind is evolving from a ticker analyzer into a screenshot-to-setup product (chart image in; direction, entry, stop-loss, take-profits and confidence out), backed by a public backtest and paper log. The system below is the working **context layer** of that product. Full roadmap: [PLAN.md](PLAN.md). Contributor notes: [CLAUDE.md](CLAUDE.md).
+
 MarketMind is a high-speed, parallel multi-agent AI system designed to analyze stocks and cryptocurrencies in under 5 seconds. By leveraging **LangGraph's fan-out architecture** and **Groq's Llama-3.3-70B** model, it simultaneously evaluates financial assets across 5 distinct dimensions before synthesizing a final BUY/HOLD/SELL verdict.
 
 ## 🏗 Architecture Flowchart
@@ -50,3 +52,6 @@ flowchart TB
 
 ## 🔐 State Management
 To prevent race conditions when 5 agents write to the state simultaneously, MarketMind uses `operator.add` as a reducer. This safely *appends* each agent's result to a list rather than overwriting it, ensuring no data is lost during the parallel execution superstep.
+
+## 🗺 Roadmap
+Six phases, gated by an early eval (can a vision model read 50 labeled charts at 80% trend accuracy?). See [PLAN.md](PLAN.md) for phases, the asset inventory of related repos, risks and open decisions.

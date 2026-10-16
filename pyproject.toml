@@ -1,7 +1,7 @@
 [project]
 name = "trade-buddy"
 version = "0.1.0"
-description = "Add your description here"
+description = "MarketMind: multi-agent stock/crypto analyst evolving into a screenshot-to-trade-setup product"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
