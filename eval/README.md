@@ -2,7 +2,14 @@
 
 Gate (PLAN.md): >= 50 hand-labeled charts and >= 80% trend accuracy. Fail = stop and rethink.
 
-## Label your charts
+## Fastest path: auto-build the dataset (needs internet)
+```
+pip install -e '.[eval]'
+python -m eval.make_dataset --n 60     # downloads prices, draws charts, labels by rule, class-balanced
+```
+Labels come from fixed rules (net move + linear-fit R^2 for trend; clustered pivots for levels); ambiguous windows are skipped. Caveat: these are clean renders, so a pass is optimistic versus real TradingView screenshots. Add ~15 real hand-labeled screenshots too (below) before trusting the gate.
+
+## Or label charts by hand
 1. Put screenshots in `eval/data/images/`. Mix timeframes, platforms, assets, and trends; include sideways and messy charts, not just clean ones.
 2. One JSON object per line in `eval/data/labels.jsonl`:
    `{"image": "btc_4h_01.png", "trend": "UP", "levels": [61200, 64800]}`

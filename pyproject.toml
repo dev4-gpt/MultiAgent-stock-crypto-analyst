@@ -20,4 +20,4 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-eval = ["anthropic>=0.40", "pytest>=8"]
+eval = ["anthropic>=0.40", "pytest>=8", "mplfinance>=0.12", "matplotlib>=3.8"]
